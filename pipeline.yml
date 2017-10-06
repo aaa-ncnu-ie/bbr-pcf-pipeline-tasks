@@ -1,4 +1,4 @@
-bbr-director-cleanupgroups:
+groups:
 - name: backup
   jobs:
     - export-om-installation
@@ -134,7 +134,7 @@ jobs:
   - task: extract-binary
     file: bbr-pipeline-tasks-repo/tasks/extract-binary/task.yml
   - task: bbr-director-cleanup
-    file: bbr-pipeline-tasks-repo/tasks/bbr-director-unlock/task.yml
+    file: bbr-pipeline-tasks-repo/tasks/bbr-director-cleanup/task.yml
     params:
       SKIP_SSL_VALIDATION: {{skip-ssl-validation}}
       OPSMAN_URL: {{opsman-url}}

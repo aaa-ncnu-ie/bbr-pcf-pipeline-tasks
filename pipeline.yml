@@ -45,6 +45,24 @@ jobs:
   - put: om-backup-artifact
     params:
       file: om-installation/installation.zip
+    on_success:
+      task: success-zapier-notification
+      file: pcf-pipelines/pcf-cfops-backup/tasks/push-zapier-notification.yml
+      params:
+        url: {{zapier-webhook}}
+        pcf_env_backup: {{pcf_env}}
+        backup_product: OpsMan
+        passfail: success
+        deadman: {{deadman-redis}}
+    on_failure:
+      task: success-zapier-notification
+      file: pcf-pipelines/pcf-cfops-backup/tasks/push-zapier-notification.yml
+      params:
+        url: {{zapier-webhook}}
+        pcf_env_backup: {{pcf_env}}
+        backup_product: OpsMan
+        passfail: failure
+        deadman: {{deadman-redis}}
 
 - name: bbr-backup-ert
   plan:
@@ -70,6 +88,25 @@ jobs:
   - put: ert-backup-bucket
     params:
       file: ert-backup-artifact/ert-backup.tar
+    #Deadman notification
+    on_success:
+      task: success-zapier-notification
+      file: bbr-pcf-pipeline-tasks/deadmansnitch/push-zapier-notification.yml
+      params:
+        url: {{zapier-webhook}}
+        pcf_env_backup: {{pcf_env}}
+        backup_product: elastic-runtime
+        passfail: success
+        deadman: {{deadman-ert}}
+    on_failure:
+      task: success-zapier-notification
+      file: bbr-pcf-pipeline-tasks/deadmansnitch/push-zapier-notification.yml
+      params:
+        url: {{zapier-webhook}}
+        pcf_env_backup: {{pcf_env}}
+        backup_product: elastic-runtime
+        passfail: failure
+        deadman: {{deadman-ert}}
 
 - name: bbr-backup-director
   plan:
@@ -95,6 +132,24 @@ jobs:
   - put: director-backup-bucket
     params:
       file: director-backup-artifact/director-backup.tar
+    on_success:
+      task: success-zapier-notification
+      file: pcf-pipelines/pcf-cfops-backup/tasks/push-zapier-notification.yml
+      params:
+        url: {{zapier-webhook}}
+        pcf_env_backup: {{pcf_env}}
+        backup_product: Director
+        passfail: success
+        deadman: {{deadman-director}}
+    on_failure:
+      task: success-zapier-notification
+      file: pcf-pipelines/pcf-cfops-backup/tasks/push-zapier-notification.yml
+      params:
+        url: {{zapier-webhook}}
+        pcf_env_backup: {{pcf_env}}
+        backup_product: Director
+        passfail: failure
+        deadman: {{deadman-director}}
 
 - name: unlock-deployment
   plan:

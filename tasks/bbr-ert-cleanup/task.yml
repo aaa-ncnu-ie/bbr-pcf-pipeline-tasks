@@ -17,4 +17,4 @@ params:
   OPSMAN_PASSWORD:
 
 run:
-  path: bbr-pipeline-tasks-repo/tasks/bbr-director-unlock/task.sh
+  path: bbr-pipeline-tasks-repo/tasks/bbr-ert-cleanup/task.sh

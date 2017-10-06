@@ -1,13 +1,15 @@
-groups:
+bbr-director-cleanupgroups:
 - name: backup
   jobs:
     - export-om-installation
     - bbr-backup-ert
     - bbr-backup-director
-- name: unlock
+    - lock-deployment
+    - unlock-deployment
+- name: clean-up
   jobs:
-    - bbr-director-unlock
-    - bbr-ert-unlock
+    - bbr-director-cleanup
+    - bbr-ert-cleanup
 
 jobs:
 - name: lock-deployment
@@ -36,6 +38,10 @@ jobs:
       OPSMAN_URL: {{opsman-url}}
       OPSMAN_USERNAME: {{opsman-username}}
       OPSMAN_PASSWORD: {{opsman-password}}
+    on_failure:
+      put: lock
+      params:
+        release: lock
   - put: om-backup-artifact
     params:
       file: om-installation/installation.zip
@@ -57,6 +63,10 @@ jobs:
       OPSMAN_URL: {{opsman-url}}
       OPSMAN_USERNAME: {{opsman-username}}
       OPSMAN_PASSWORD: {{opsman-password}}
+    on_failure:
+      put: lock
+      params:
+        release: lock
   - put: ert-backup-bucket
     params:
       file: ert-backup-artifact/ert-backup.tar
@@ -78,6 +88,10 @@ jobs:
       OPSMAN_URL: {{opsman-url}}
       OPSMAN_USERNAME: {{opsman-username}}
       OPSMAN_PASSWORD: {{opsman-password}}
+    on_failure:
+      put: lock
+      params:
+        release: lock
   - put: director-backup-bucket
     params:
       file: director-backup-artifact/director-backup.tar
@@ -91,7 +105,7 @@ jobs:
     params:
       release: lock
 
-- name: bbr-ert-unlock
+- name: bbr-ert-cleanup
   serial: true
   plan:
   - aggregate:
@@ -101,15 +115,15 @@ jobs:
       trigger: false
   - task: extract-binary
     file: bbr-pipeline-tasks-repo/tasks/extract-binary/task.yml
-  - task: bbr-ert-unlock
-    file: bbr-pipeline-tasks-repo/tasks/bbr-ert-unlock/task.yml
+  - task: bbr-ert-cleanup
+    file: bbr-pipeline-tasks-repo/tasks/bbr-ert-cleanup/task.yml
     params:
       SKIP_SSL_VALIDATION: {{skip-ssl-validation}}
       OPSMAN_URL: {{opsman-url}}
       OPSMAN_USERNAME: {{opsman-username}}
       OPSMAN_PASSWORD: {{opsman-password}}
 
-- name: bbr-director-unlock
+- name: bbr-director-cleanup
   serial: true
   plan:
   - aggregate:
@@ -119,7 +133,7 @@ jobs:
       trigger: false
   - task: extract-binary
     file: bbr-pipeline-tasks-repo/tasks/extract-binary/task.yml
-  - task: bbr-director-unlock
+  - task: bbr-director-cleanup
     file: bbr-pipeline-tasks-repo/tasks/bbr-director-unlock/task.yml
     params:
       SKIP_SSL_VALIDATION: {{skip-ssl-validation}}

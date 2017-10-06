@@ -53,7 +53,7 @@ jobs:
         pcf_env_backup: {{pcf_env}}
         backup_product: OpsMan
         passfail: success
-        deadman: {{deadman-redis}}
+        deadman: {{deadman-director}}
     on_failure:
       task: success-zapier-notification
       file: pcf-pipelines/pcf-cfops-backup/tasks/push-zapier-notification.yml
@@ -62,7 +62,7 @@ jobs:
         pcf_env_backup: {{pcf_env}}
         backup_product: OpsMan
         passfail: failure
-        deadman: {{deadman-redis}}
+        deadman: {{deadman-director}}
 
 - name: bbr-backup-ert
   plan:

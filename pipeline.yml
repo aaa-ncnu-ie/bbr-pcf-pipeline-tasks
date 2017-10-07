@@ -55,7 +55,7 @@ jobs:
         passfail: success
         deadman: {{deadman-director}}
     on_failure:
-      task: success-zapier-notification
+      task: failure-zapier-notification
       file: pcf-pipelines/pcf-cfops-backup/tasks/push-zapier-notification.yml
       params:
         url: {{zapier-webhook}}
@@ -99,7 +99,7 @@ jobs:
         passfail: success
         deadman: {{deadman-ert}}
     on_failure:
-      task: success-zapier-notification
+      task: failure-zapier-notification
       file: bbr-pcf-pipeline-tasks/deadmansnitch/push-zapier-notification.yml
       params:
         url: {{zapier-webhook}}
@@ -142,7 +142,7 @@ jobs:
         passfail: success
         deadman: {{deadman-director}}
     on_failure:
-      task: success-zapier-notification
+      task: failure-zapier-notification
       file: pcf-pipelines/pcf-cfops-backup/tasks/push-zapier-notification.yml
       params:
         url: {{zapier-webhook}}

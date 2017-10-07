@@ -38,16 +38,9 @@ jobs:
       OPSMAN_URL: {{opsman-url}}
       OPSMAN_USERNAME: {{opsman-username}}
       OPSMAN_PASSWORD: {{opsman-password}}
-    on_failure:
-      put: lock
-      params:
-        release: lock
-  - put: om-backup-artifact
-    params:
-      file: om-installation/installation.zip
     on_success:
       task: success-zapier-notification
-      file: pcf-pipelines/pcf-cfops-backup/tasks/push-zapier-notification.yml
+      file: bbr-pipeline-tasks-repo/tasks/deadmansnitch/push-zapier-notification.yml
       params:
         url: {{zapier-webhook}}
         pcf_env_backup: {{pcf_env}}
@@ -55,14 +48,23 @@ jobs:
         passfail: success
         deadman: {{deadman-director}}
     on_failure:
+      put: lock
+      params:
+        release: lock
+    on_failure:
       task: failure-zapier-notification
-      file: pcf-pipelines/pcf-cfops-backup/tasks/push-zapier-notification.yml
+      file: bbr-pipeline-tasks-repo/tasks/deadmansnitch/push-zapier-notification.yml
       params:
         url: {{zapier-webhook}}
         pcf_env_backup: {{pcf_env}}
         backup_product: OpsMan
         passfail: failure
         deadman: {{deadman-director}}
+  - put: om-backup-artifact
+    params:
+      file: om-installation/installation.zip
+
+
 
 - name: bbr-backup-ert
   plan:
@@ -81,17 +83,9 @@ jobs:
       OPSMAN_URL: {{opsman-url}}
       OPSMAN_USERNAME: {{opsman-username}}
       OPSMAN_PASSWORD: {{opsman-password}}
-    on_failure:
-      put: lock
-      params:
-        release: lock
-  - put: ert-backup-bucket
-    params:
-      file: ert-backup-artifact/ert-backup.tar
-    #Deadman notification
     on_success:
       task: success-zapier-notification
-      file: bbr-pcf-pipeline-tasks/deadmansnitch/push-zapier-notification.yml
+      file: bbr-pipeline-tasks-repo/tasks/deadmansnitch/push-zapier-notification.yml
       params:
         url: {{zapier-webhook}}
         pcf_env_backup: {{pcf_env}}
@@ -99,14 +93,21 @@ jobs:
         passfail: success
         deadman: {{deadman-ert}}
     on_failure:
+      put: lock
+      params:
+        release: lock
+    on_failure:
       task: failure-zapier-notification
-      file: bbr-pcf-pipeline-tasks/deadmansnitch/push-zapier-notification.yml
+      file: bbr-pipeline-tasks-repo/tasks/deadmansnitch/push-zapier-notification.yml
       params:
         url: {{zapier-webhook}}
         pcf_env_backup: {{pcf_env}}
         backup_product: elastic-runtime
         passfail: failure
         deadman: {{deadman-ert}}
+  - put: ert-backup-bucket
+    params:
+      file: ert-backup-artifact/ert-backup.tar
 
 - name: bbr-backup-director
   plan:
@@ -125,16 +126,9 @@ jobs:
       OPSMAN_URL: {{opsman-url}}
       OPSMAN_USERNAME: {{opsman-username}}
       OPSMAN_PASSWORD: {{opsman-password}}
-    on_failure:
-      put: lock
-      params:
-        release: lock
-  - put: director-backup-bucket
-    params:
-      file: director-backup-artifact/director-backup.tar
     on_success:
       task: success-zapier-notification
-      file: pcf-pipelines/pcf-cfops-backup/tasks/push-zapier-notification.yml
+      file: bbr-pipeline-tasks-repo/tasks/deadmansnitch/push-zapier-notification.yml
       params:
         url: {{zapier-webhook}}
         pcf_env_backup: {{pcf_env}}
@@ -142,14 +136,21 @@ jobs:
         passfail: success
         deadman: {{deadman-director}}
     on_failure:
+      put: lock
+      params:
+        release: lock
+    on_failure:
       task: failure-zapier-notification
-      file: pcf-pipelines/pcf-cfops-backup/tasks/push-zapier-notification.yml
+      file: bbr-pipeline-tasks-repo/tasks/deadmansnitch/push-zapier-notification.yml
       params:
         url: {{zapier-webhook}}
         pcf_env_backup: {{pcf_env}}
         backup_product: Director
         passfail: failure
         deadman: {{deadman-director}}
+  - put: director-backup-bucket
+    params:
+      file: director-backup-artifact/director-backup.tar
 
 - name: unlock-deployment
   plan:

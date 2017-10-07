@@ -4,6 +4,6 @@ image_resource:
   source: {repository: ubuntu}
 
 inputs:
-  - { name: pcf-pipelines }
+  - { name: bbr-pipeline-tasks-repo }
 run:
   path: bbr-pcf-pipeline-tasks/deadmansnitch/push-zapier.sh

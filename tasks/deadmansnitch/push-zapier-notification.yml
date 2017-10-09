@@ -6,4 +6,4 @@ image_resource:
 inputs:
   - { name: bbr-pipeline-tasks-repo }
 run:
-  path: bbr-pcf-pipeline-tasks/tasks/deadmansnitch/push-zapier.sh
+  path: bbr-pcf-pipeline-tasks-repo/tasks/deadmansnitch/push-zapier.sh

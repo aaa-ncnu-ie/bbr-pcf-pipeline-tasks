@@ -46,7 +46,7 @@ jobs:
         pcf_env_backup: {{pcf_env}}
         backup_product: OpsMan
         passfail: success
-        deadman: {{deadman-director}}
+        deadman: {{deadman-ops-man}}
     on_failure:
       put: lock
       params:
@@ -63,8 +63,6 @@ jobs:
   - put: om-backup-artifact
     params:
       file: om-installation/installation.zip
-
-
 
 - name: bbr-backup-ert
   plan:

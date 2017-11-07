@@ -45,7 +45,7 @@ jobs:
         url: {{zapier-webhook}}
         pcf_env_backup: {{pcf_env}}
         backup_product: OpsMan
-        passfail: success
+        passfail: SUCCESS
         deadman: {{deadman-ops-man}}
     on_failure:
       put: lock
@@ -58,7 +58,7 @@ jobs:
         url: {{zapier-webhook}}
         pcf_env_backup: {{pcf_env}}
         backup_product: OpsMan
-        passfail: failure
+        passfail: FAILURE
         deadman: {{deadman-director}}
   - put: om-backup-artifact
     params:
@@ -88,7 +88,7 @@ jobs:
         url: {{zapier-webhook}}
         pcf_env_backup: {{pcf_env}}
         backup_product: elastic-runtime
-        passfail: success
+        passfail: SUCCESS
         deadman: {{deadman-ert}}
     on_failure:
       put: lock
@@ -101,7 +101,7 @@ jobs:
         url: {{zapier-webhook}}
         pcf_env_backup: {{pcf_env}}
         backup_product: elastic-runtime
-        passfail: failure
+        passfail: FAILURE
         deadman: {{deadman-ert}}
   - put: ert-backup-bucket
     params:
@@ -131,7 +131,7 @@ jobs:
         url: {{zapier-webhook}}
         pcf_env_backup: {{pcf_env}}
         backup_product: Director
-        passfail: success
+        passfail: SUCCESS
         deadman: {{deadman-director}}
     on_failure:
       put: lock
@@ -144,7 +144,7 @@ jobs:
         url: {{zapier-webhook}}
         pcf_env_backup: {{pcf_env}}
         backup_product: Director
-        passfail: failure
+        passfail: FAILURE
         deadman: {{deadman-director}}
   - put: director-backup-bucket
     params:

@@ -41,7 +41,10 @@ jobs:
   - task: s3-upload
     file: bbr-pipeline-tasks-repo/tasks/s3-upload/task.yml
     params:
-      file: om-installation/installation.zip
+      storage-access-key-id: {{storage-access-key-id}}
+      storage-secret-access-key: {{storage-secret-access-key}}
+      backup-artifact-bucket: {{backup-artifact-bucket}}
+      backup_file_name: installation.zip
     on_success:
       task: success-zapier-notification
       file: bbr-pipeline-tasks-repo/tasks/deadmansnitch/push-zapier-notification.yml
@@ -85,7 +88,10 @@ jobs:
   - task: s3-upload
     file: bbr-pipeline-tasks-repo/tasks/s3-upload/task.yml
     params:
-      file: ert-backup-artifact/ert-backup.tar
+      storage-access-key-id: {{storage-access-key-id}}
+      storage-secret-access-key: {{storage-secret-access-key}}
+      backup-artifact-bucket: {{backup-artifact-bucket}}
+      backup_file_name: ert-backup.tar
     on_success:
       task: success-zapier-notification
       file: bbr-pipeline-tasks-repo/tasks/deadmansnitch/push-zapier-notification.yml
@@ -126,10 +132,13 @@ jobs:
       OPSMAN_URL: {{opsman-url}}
       OPSMAN_USERNAME: {{opsman-username}}
       OPSMAN_PASSWORD: {{opsman-password}}
-- task: s3-upload
-  file: bbr-pipeline-tasks-repo/tasks/s3-upload/task.yml
-  params:
-    file: director-backup-artifact/director-backup.tar
+  - task: s3-upload
+    file: bbr-pipeline-tasks-repo/tasks/s3-upload/task.yml
+    params:
+      storage-access-key-id: {{storage-access-key-id}}
+      storage-secret-access-key: {{storage-secret-access-key}}
+      backup-artifact-bucket: {{backup-artifact-bucket}}
+      backup_file_name: director-backup.tar
     on_success:
       task: success-zapier-notification
       file: bbr-pipeline-tasks-repo/tasks/deadmansnitch/push-zapier-notification.yml
@@ -152,7 +161,7 @@ jobs:
         backup_product: Director
         passfail: FAILURE
         deadman: {{deadman-director}}
-  
+
 
 - name: unlock-deployment
   plan:
@@ -212,33 +221,33 @@ resources:
   source:
     uri: https://github.com/aaa-ncnu-ie/bbr-pcf-pipeline-tasks.git
     branch: master
-- name: om-backup-artifact
-  type: s3
-  source:
-    bucket: {{backup-artifact-bucket}}
-    region_name: {{storage-region}}
-    endpoint: {{storage-endpoint}}
-    access_key_id: {{storage-access-key-id}}
-    secret_access_key: {{storage-secret-access-key}}
-    versioned_file: installation.zip
-- name: ert-backup-bucket
-  type: s3
-  source:
-    bucket: {{backup-artifact-bucket}}
-    region_name: {{storage-region}}
-    endpoint: {{storage-endpoint}}
-    access_key_id: {{storage-access-key-id}}
-    secret_access_key: {{storage-secret-access-key}}
-    versioned_file: ert-backup.tar
-- name: director-backup-bucket
-  type: s3
-  source:
-    bucket: {{backup-artifact-bucket}}
-    region_name: {{storage-region}}
-    endpoint: {{storage-endpoint}}
-    access_key_id: {{storage-access-key-id}}
-    secret_access_key: {{storage-secret-access-key}}
-    versioned_file: director-backup.tar
+#- name: om-backup-artifact
+#  type: s3
+#  source:
+#    bucket: {{backup-artifact-bucket}}
+#    region_name: {{storage-region}}
+#    endpoint: {{storage-endpoint}}
+#    access_key_id: {{storage-access-key-id}}
+#    secret_access_key: {{storage-secret-access-key}}
+#    versioned_file: installation.zip
+#- name: ert-backup-bucket
+#  type: s3
+#  source:
+#    bucket: {{backup-artifact-bucket}}
+#    region_name: {{storage-region}}
+#    endpoint: {{storage-endpoint}}
+#    access_key_id: {{storage-access-key-id}}
+#    secret_access_key: {{storage-secret-access-key}}
+#    versioned_file: ert-backup.tar
+#- name: director-backup-bucket
+#  type: s3
+#  source:
+#    bucket: {{backup-artifact-bucket}}
+#    region_name: {{storage-region}}
+#    endpoint: {{storage-endpoint}}
+#    access_key_id: {{storage-access-key-id}}
+#    secret_access_key: {{storage-secret-access-key}}
+#    versioned_file: director-backup.tar
 - name: bbr-release
   type: pivnet
   source:

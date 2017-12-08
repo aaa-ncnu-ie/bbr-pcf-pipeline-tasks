@@ -7,7 +7,7 @@ s3 = Aws::S3::Resource.new(
 )
 
 file = "#{ENV['backup_file_name']}"
-bucket = '#{ENV['backup-artifact-bucket']}'
+bucket = "#{ENV['backup-artifact-bucket']}"
 
 name = File.basename(file)
 

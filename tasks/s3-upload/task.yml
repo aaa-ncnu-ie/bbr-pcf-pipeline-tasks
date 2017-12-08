@@ -1,0 +1,17 @@
+---
+platform: linux
+image_resource:
+  type: docker-image
+  source:
+    repository: docker.prod.pdc.csaa-insurance.aaa.com/bbr-pipeline
+    tag: final
+
+
+params:
+  storage-access-key-id:
+  storage-secret-access-key:
+  backup-artifact-bucket:
+  backup_file_name: {{file}}
+
+run:
+  path: bbr-pipeline-tasks-repo/tasks/s3-upload/task.rb

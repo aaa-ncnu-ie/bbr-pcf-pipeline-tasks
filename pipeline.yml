@@ -38,6 +38,10 @@ jobs:
       OPSMAN_URL: {{opsman-url}}
       OPSMAN_USERNAME: {{opsman-username}}
       OPSMAN_PASSWORD: {{opsman-password}}
+  - task: s3-upload
+    file: bbr-pipeline-tasks-repo/tasks/s3-upload/task.yml
+    params:
+      file: om-installation/installation.zip
     on_success:
       task: success-zapier-notification
       file: bbr-pipeline-tasks-repo/tasks/deadmansnitch/push-zapier-notification.yml
@@ -60,9 +64,6 @@ jobs:
         backup_product: OpsMan
         passfail: FAILURE
         deadman: {{deadman-director}}
-  - put: om-backup-artifact
-    params:
-      file: om-installation/installation.zip
 
 - name: bbr-backup-ert
   plan:
@@ -81,6 +82,10 @@ jobs:
       OPSMAN_URL: {{opsman-url}}
       OPSMAN_USERNAME: {{opsman-username}}
       OPSMAN_PASSWORD: {{opsman-password}}
+  - task: s3-upload
+    file: bbr-pipeline-tasks-repo/tasks/s3-upload/task.yml
+    params:
+      file: ert-backup-artifact/ert-backup.tar
     on_success:
       task: success-zapier-notification
       file: bbr-pipeline-tasks-repo/tasks/deadmansnitch/push-zapier-notification.yml
@@ -103,9 +108,6 @@ jobs:
         backup_product: elastic-runtime
         passfail: FAILURE
         deadman: {{deadman-ert}}
-  - put: ert-backup-bucket
-    params:
-      file: ert-backup-artifact/ert-backup.tar
 
 - name: bbr-backup-director
   plan:
@@ -124,6 +126,10 @@ jobs:
       OPSMAN_URL: {{opsman-url}}
       OPSMAN_USERNAME: {{opsman-username}}
       OPSMAN_PASSWORD: {{opsman-password}}
+- task: s3-upload
+  file: bbr-pipeline-tasks-repo/tasks/s3-upload/task.yml
+  params:
+    file: director-backup-artifact/director-backup.tar
     on_success:
       task: success-zapier-notification
       file: bbr-pipeline-tasks-repo/tasks/deadmansnitch/push-zapier-notification.yml
@@ -146,9 +152,7 @@ jobs:
         backup_product: Director
         passfail: FAILURE
         deadman: {{deadman-director}}
-  - put: director-backup-bucket
-    params:
-      file: director-backup-artifact/director-backup.tar
+  
 
 - name: unlock-deployment
   plan:

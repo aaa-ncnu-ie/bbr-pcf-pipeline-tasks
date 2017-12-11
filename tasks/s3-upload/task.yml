@@ -8,9 +8,7 @@ image_resource:
 
 inputs:
   - name: bbr-pipeline-tasks-repo
-
-outputs:
-  - name: s3-upload
+  - name: ert-backup-artifact
 
 params:
   storage-access-key-id:

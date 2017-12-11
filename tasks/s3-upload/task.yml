@@ -9,6 +9,9 @@ image_resource:
 inputs:
   - name: bbr-pipeline-tasks-repo
 
+outputs:
+  - name: s3-upload
+
 params:
   storage-access-key-id:
   storage-secret-access-key:

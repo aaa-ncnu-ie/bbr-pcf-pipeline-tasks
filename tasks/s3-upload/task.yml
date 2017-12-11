@@ -6,6 +6,8 @@ image_resource:
     repository: docker.prod.pdc.digital.csaa-insurance.aaa.com/bbr-pipeline
     tag: latest
 
+inputs:
+  - name: bbr-pipeline-tasks-repo
 
 params:
   storage-access-key-id:

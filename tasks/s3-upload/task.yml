@@ -8,7 +8,7 @@ image_resource:
 
 inputs:
   - name: bbr-pipeline-tasks-repo
-  - name: ert-backup-artifact
+  - name: backup-artifact
 
 params:
   storage-access-key-id:

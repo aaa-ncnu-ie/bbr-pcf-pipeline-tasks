@@ -9,7 +9,7 @@ image_resource:
 inputs:
   - name: bbr-pipeline-tasks-repo
 outputs:
-  - name: om-installation
+  - name: backup-artifact
 
 run:
   path: bbr-pipeline-tasks-repo/tasks/export-om-installation/task.sh

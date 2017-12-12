@@ -44,7 +44,7 @@ jobs:
       storage-access-key-id: {{storage-access-key-id}}
       storage-secret-access-key: {{storage-secret-access-key}}
       backup-artifact-bucket: {{backup-artifact-bucket}}
-      backup_file_name: installation.zip
+      backup_file_name: backup-artifact/installation.zip
     on_success:
       task: success-zapier-notification
       file: bbr-pipeline-tasks-repo/tasks/deadmansnitch/push-zapier-notification.yml
@@ -91,7 +91,7 @@ jobs:
       storage-access-key-id: {{storage-access-key-id}}
       storage-secret-access-key: {{storage-secret-access-key}}
       backup-artifact-bucket: {{backup-artifact-bucket}}
-      backup_file_name: ert-backup-artifact/ert-backup.tar
+      backup_file_name: backup-artifact/ert-backup.tar
     on_success:
       task: success-zapier-notification
       file: bbr-pipeline-tasks-repo/tasks/deadmansnitch/push-zapier-notification.yml
@@ -138,7 +138,7 @@ jobs:
       storage-access-key-id: {{storage-access-key-id}}
       storage-secret-access-key: {{storage-secret-access-key}}
       backup-artifact-bucket: {{backup-artifact-bucket}}
-      backup_file_name: director-backup.tar
+      backup_file_name: backup-artifact/director-backup.tar
     on_success:
       task: success-zapier-notification
       file: bbr-pipeline-tasks-repo/tasks/deadmansnitch/push-zapier-notification.yml

@@ -8,7 +8,7 @@ s3 = Aws::S3::Resource.new(
 
 file = "#{ENV['backup_file_name']}"
 bucket = "#{ENV['backup-artifact-bucket']}"
-prints "uploading file to S3 #{bucket} - "
+print "uploading file to S3 #{bucket} - "
 puts File.size(file)
 
 name = File.basename(file)

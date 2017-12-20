@@ -17,12 +17,12 @@ jobs:
   plan:
   - put: lock
     params: {claim: lock}
-  - get: scheduler
+  - get: scheduler {{scheduler-time-window-start}} to {{scheduler-time-window-stop}}
     trigger: true
-    ensure:
-      put: lock
-      params:
-        release: lock
+#    ensure:
+#      put: lock
+#      params:
+#        release: lock
 
 - name: export-om-installation
   plan:
@@ -221,39 +221,12 @@ resources:
   source:
     uri: https://github.com/aaa-ncnu-ie/bbr-pcf-pipeline-tasks.git
     branch: master
-#- name: om-backup-artifact
-#  type: s3
-#  source:
-#    bucket: {{backup-artifact-bucket}}
-#    region_name: {{storage-region}}
-#    endpoint: {{storage-endpoint}}
-#    access_key_id: {{storage-access-key-id}}
-#    secret_access_key: {{storage-secret-access-key}}
-#    versioned_file: installation.zip
-#- name: ert-backup-bucket
-#  type: s3
-#  source:
-#    bucket: {{backup-artifact-bucket}}
-#    region_name: {{storage-region}}
-#    endpoint: {{storage-endpoint}}
-#    access_key_id: {{storage-access-key-id}}
-#    secret_access_key: {{storage-secret-access-key}}
-#    versioned_file: ert-backup.tar
-#- name: director-backup-bucket
-#  type: s3
-#  source:
-#    bucket: {{backup-artifact-bucket}}
-#    region_name: {{storage-region}}
-#    endpoint: {{storage-endpoint}}
-#    access_key_id: {{storage-access-key-id}}
-#    secret_access_key: {{storage-secret-access-key}}
-#    versioned_file: director-backup.tar
 - name: bbr-release
   type: pivnet
   source:
     api_token: {{pivnet-api-token}}
     product_slug: p-bosh-backup-and-restore
-- name: scheduler
+- name: scheduler {{scheduler-time-window-start}} to {{scheduler-time-window-stop}}
   type: time
   source:
     start: {{scheduler-time-window-start}}

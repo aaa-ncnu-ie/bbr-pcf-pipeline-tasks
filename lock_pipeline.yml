@@ -1,0 +1,24 @@
+jobs:
+- name: lock-deployment
+#  serial: true
+  plan:
+  - put: lock
+    params: {claim: lock}
+
+
+- name: unlock-deployment
+  plan:
+  - get: lock
+  - put: lock
+    params:
+      release: lock
+
+
+resources:
+- name: lock
+  type: pool
+  source:
+    uri: {{lock-git-repo-uri}}
+    branch: {{lock-git-repo-branch}}
+    pool: {{lock-pool-name}}
+    private_key: {{lock-git-private-key}}

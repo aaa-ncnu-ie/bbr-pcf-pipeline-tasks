@@ -4,7 +4,7 @@
 
 pushd backup-artifact
   ../binary/bbr deployment \
-  --debug
+  --debug \
   --target "${BOSH_ADDRESS}" \
   --username "${BOSH_CLIENT}" \
   --deployment "${ERT_DEPLOYMENT_NAME}" \

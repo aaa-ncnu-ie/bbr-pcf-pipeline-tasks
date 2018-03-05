@@ -4,32 +4,17 @@ groups:
     - export-om-installation
     - bbr-backup-ert
     - bbr-backup-director
-#    - lock-deployment
-#    - unlock-deployment
+
 - name: clean-up
   jobs:
     - bbr-director-cleanup
     - bbr-ert-cleanup
 
 jobs:
-#- name: lock-deployment
-#  serial: true
-#  plan:
-#  - put: lock
-#    params: {claim: lock}
-#  - get: scheduler
-#    trigger: true
-#    ensure:
-#      put: lock
-#      params:
-#        release: lock
-
 - name: export-om-installation
   plan:
   - aggregate:
-#    - get: lock
-#      trigger: true
-#      passed: [lock-deployment]
+
     - get: scheduler {{scheduler-time-window-start}} to {{scheduler-time-window-stop}}
       trigger: true
     - get: bbr-pipeline-tasks-repo
@@ -56,10 +41,7 @@ jobs:
         backup_product: OpsMan
         passfail: SUCCESS
         deadman: {{deadman-ops-man}}
-#    on_failure:
-#      put: lock
-#      params:
-#        release: lock
+
     on_failure:
       task: failure-zapier-notification
       file: bbr-pipeline-tasks-repo/tasks/deadmansnitch/push-zapier-notification.yml
@@ -73,9 +55,7 @@ jobs:
 - name: bbr-backup-ert
   plan:
   - aggregate:
-#    - get: lock
-#      trigger: true
-#      passed: [lock-deployment]
+
     - get: scheduler {{scheduler-time-window-start}} to {{scheduler-time-window-stop}}
       trigger: true
     - get: bbr-pipeline-tasks-repo
@@ -105,10 +85,7 @@ jobs:
         backup_product: elastic-runtime
         passfail: SUCCESS
         deadman: {{deadman-ert}}
-#    on_failure:
-#      put: lock
-#      params:
-#        release: lock
+
     on_failure:
       task: failure-zapier-notification
       file: bbr-pipeline-tasks-repo/tasks/deadmansnitch/push-zapier-notification.yml
@@ -122,9 +99,7 @@ jobs:
 - name: bbr-backup-director
   plan:
   - aggregate:
-#    - get: lock
-#      trigger: true
-#      passed: [lock-deployment]
+
     - get: scheduler {{scheduler-time-window-start}} to {{scheduler-time-window-stop}}
       trigger: true
     - get: bbr-pipeline-tasks-repo
@@ -154,10 +129,7 @@ jobs:
         backup_product: Director
         passfail: SUCCESS
         deadman: {{deadman-director}}
-#    on_failure:
-#      put: lock
-#      params:
-#        release: lock
+
     on_failure:
       task: failure-zapier-notification
       file: bbr-pipeline-tasks-repo/tasks/deadmansnitch/push-zapier-notification.yml
@@ -167,16 +139,6 @@ jobs:
         backup_product: Director
         passfail: FAILURE
         deadman: {{deadman-director}}
-
-
-#- name: unlock-deployment
-#  plan:
-#  - get: lock
-#    trigger: true
-#    passed: [export-om-installation, bbr-backup-ert, bbr-backup-director]
-#  - put: lock
-#    params:
-#      release: lock
 
 - name: bbr-ert-cleanup
   serial: true
@@ -227,33 +189,7 @@ resources:
   source:
     uri: https://github.com/aaa-ncnu-ie/bbr-pcf-pipeline-tasks.git
     branch: master
-#- name: om-backup-artifact
-#  type: s3
-#  source:
-#    bucket: {{backup-artifact-bucket}}
-#    region_name: {{storage-region}}
-#    endpoint: {{storage-endpoint}}
-#    access_key_id: {{storage-access-key-id}}
-#    secret_access_key: {{storage-secret-access-key}}
-#    versioned_file: installation.zip
-#- name: ert-backup-bucket
-#  type: s3
-#  source:
-#    bucket: {{backup-artifact-bucket}}
-#    region_name: {{storage-region}}
-#    endpoint: {{storage-endpoint}}
-#    access_key_id: {{storage-access-key-id}}
-#    secret_access_key: {{storage-secret-access-key}}
-#    versioned_file: ert-backup.tar
-#- name: director-backup-bucket
-#  type: s3
-#  source:
-#    bucket: {{backup-artifact-bucket}}
-#    region_name: {{storage-region}}
-#    endpoint: {{storage-endpoint}}
-#    access_key_id: {{storage-access-key-id}}
-#    secret_access_key: {{storage-secret-access-key}}
-#    versioned_file: director-backup.tar
+
 - name: bbr-release
   type: pivnet
   source:
@@ -265,10 +201,3 @@ resources:
     start: {{scheduler-time-window-start}}
     stop: {{scheduler-time-window-stop}}
     location: {{scheduler-time-location}}
-#- name: lock
-#  type: pool
-#  source:
-#    uri: {{lock-git-repo-uri}}
-#    branch: {{lock-git-repo-branch}}
-#    pool: {{lock-pool-name}}
-#    private_key: {{lock-git-private-key}}

@@ -9,7 +9,7 @@ resources:
 - name: bbr-pipeline-tasks-image
   type: docker-image
   source:
-    tag: release-candidate
+    tag: final
     repository: cloudfoundrylondon/bbr-pipeline
     username: {{dockerhub-username}}
     password: {{dockerhub-password}}
